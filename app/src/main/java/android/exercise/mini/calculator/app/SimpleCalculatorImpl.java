@@ -1,5 +1,7 @@
 package android.exercise.mini.calculator.app;
 
+import androidx.core.app.CoreComponentFactory;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,13 +73,13 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
     previousInputs.add(activeNumber);
     activeNumber = previousInputs.get(0);
     for (int i = 1 ; i < previousInputs.size(); i+=2){
-      int operator = previousInputs.get(i + 1);
+      int operator = previousInputs.get(i);
       switch (operator){
         case PLUS:
-          activeNumber += previousInputs.get(i);
+          activeNumber += previousInputs.get(i+1);
           break;
         case MINUS:
-          activeNumber -= previousInputs.get(i);
+          activeNumber -= previousInputs.get(i+1);
           break;
       }
     }
@@ -94,7 +96,10 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
     //  if no input was given, then there is nothing to do here
 
     if (isLastInputOperator){
+      activeNumber = previousInputs.get(previousInputs.size()-2);
       previousInputs.remove(previousInputs.size()-1);
+      previousInputs.remove(previousInputs.size()-1);
+      isLastInputOperator = false;
     }else if (activeNumber == 0){
       if (!previousInputs.isEmpty()){
         isLastInputOperator = true;
@@ -102,6 +107,7 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
       }
     }else{
       activeNumber = activeNumber / 10;
+      isLastInputOperator = activeNumber == 0 && previousInputs.size() > 0;
     }
 
   }
