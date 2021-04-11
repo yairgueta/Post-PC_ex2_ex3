@@ -232,6 +232,7 @@ public class SimpleCalculatorImplTest {
     assertEquals("5+7", calculatorUnderTest.output());
   }
 
+
   @Test
   public void when_savingStateFromFirstCalculator_should_loadStateCorrectlyFromSecondCalculator(){
     SimpleCalculatorImpl firstCalculator = new SimpleCalculatorImpl();
@@ -250,6 +251,7 @@ public class SimpleCalculatorImplTest {
     firstCalculator.insertDigit(6);
 
     Serializable state = firstCalculator.saveState();
+    firstCalculator.clear();
     secondCalculator.loadState(state);
     assertEquals("76+858+8-36", secondCalculator.output());
   }
@@ -509,6 +511,7 @@ public class SimpleCalculatorImplTest {
     secondCalc.insertDigit(1);
 
     state = secondCalc.saveState();
+    secondCalc.clear();
     thirdCalc.loadState(state);
     thirdCalc.insertDigit(0);
     thirdCalc.insertMinus();
