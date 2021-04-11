@@ -89,6 +89,21 @@ public class SimpleCalculatorImplTest {
     }
   }
 
+  @Test
+  public void when_callingInsertDigitWithLegalNumber_then_exceptionShouldNotBeThrown(){
+    SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+    try {
+      for (int i = 0 ; i < 10 ; i++){
+        calculatorUnderTest.insertDigit(i);
+      }
+      calculatorUnderTest.insertDigit(0);
+    } catch (RuntimeException e) {
+      fail("should'nt throw an exception!");
+    }
+
+    assertEquals("1234567890", calculatorUnderTest.output());
+  }
+
 
   @Test
   public void when_callingDeleteLast_then_lastOutputShouldBeDeleted(){
