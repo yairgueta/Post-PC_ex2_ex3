@@ -1,36 +1,88 @@
 package android.exercise.mini.calculator.app;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SimpleCalculatorImpl implements SimpleCalculator {
+  private static final int PLUS = 10;
+  private static final int MINUS = 11;
 
-  // todo: add fields as needed
+  private int activeNumber;
+  private List<Integer> previousInputs = new ArrayList<>();
+
+  // determines whether the last input was an operator or a digit.
+  private boolean isLastInputOperator = false;
 
   @Override
   public String output() {
-    // todo: return output based on the current state
-    return "implement me please";
+    StringBuilder sb = new StringBuilder();
+    for (int i = 0 ; i < previousInputs.size(); i++){
+      if (i%2 == 0){
+        sb.append(previousInputs.get(i));
+      }else {
+        int operator = previousInputs.get(i);
+        switch (operator) {
+          case PLUS:
+            sb.append('+');
+            break;
+          case MINUS:
+            sb.append('-');
+            break;
+        }
+      }
+    }
+    if (!isLastInputOperator) sb.append(activeNumber);
+    return sb.toString();
   }
 
   @Override
   public void insertDigit(int digit) {
-    // todo: insert a digit
+    if (digit < 0 || digit > 9) throw new IllegalArgumentException();
+    activeNumber *= 10;
+    activeNumber += digit;
+    isLastInputOperator = false;
   }
+
+
 
   @Override
   public void insertPlus() {
-    // todo: insert a plus
+    if (isLastInputOperator) return;
+    previousInputs.add(activeNumber);
+    previousInputs.add(PLUS);
+    activeNumber = 0;
+    isLastInputOperator = true;
   }
 
   @Override
   public void insertMinus() {
-    // todo: insert a minus
+    if (isLastInputOperator) return;
+    previousInputs.add(activeNumber);
+    previousInputs.add(MINUS);
+    activeNumber = 0;
+    isLastInputOperator = true;
   }
 
   @Override
   public void insertEquals() {
     // todo: calculate the equation. after calling `insertEquals()`, the output should be the result
     //  e.g. given input "14+3", calling `insertEquals()`, and calling `output()`, output should be "17"
+    previousInputs.add(activeNumber);
+    activeNumber = previousInputs.get(0);
+    for (int i = 1 ; i < previousInputs.size(); i+=2){
+      int operator = previousInputs.get(i + 1);
+      switch (operator){
+        case PLUS:
+          activeNumber += previousInputs.get(i);
+          break;
+        case MINUS:
+          activeNumber -= previousInputs.get(i);
+          break;
+      }
+    }
+    isLastInputOperator = false;
+    previousInputs.clear();
   }
 
   @Override
@@ -40,17 +92,33 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
     //  if input was "12+3" and called `deleteLast()`, then delete the "3"
     //  if input was "12+" and called `deleteLast()`, then delete the "+"
     //  if no input was given, then there is nothing to do here
+
+    if (isLastInputOperator){
+      previousInputs.remove(previousInputs.size()-1);
+    }else if (activeNumber == 0){
+      if (!previousInputs.isEmpty()){
+        isLastInputOperator = true;
+        previousInputs.remove(previousInputs.size()-1);
+      }
+    }else{
+      activeNumber = activeNumber / 10;
+    }
+
   }
 
   @Override
   public void clear() {
-    // todo: clear everything (same as no-input was never given)
+    isLastInputOperator = false;
+    previousInputs.clear();
+    activeNumber = 0;
   }
 
   @Override
   public Serializable saveState() {
     CalculatorState state = new CalculatorState();
-    // todo: insert all data to the state, so in the future we can load from this state
+    state.activeNumber = this.activeNumber;
+    state.isLastInputOperator = this.isLastInputOperator;
+    state.previousInputs = new ArrayList<>(this.previousInputs);
     return state;
   }
 
@@ -60,7 +128,9 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
       return; // ignore
     }
     CalculatorState casted = (CalculatorState) prevState;
-    // todo: use the CalculatorState to load
+    this.activeNumber = casted.activeNumber;
+    this.previousInputs = casted.previousInputs;
+    this.isLastInputOperator = casted.isLastInputOperator;
   }
 
   private static class CalculatorState implements Serializable {
@@ -72,5 +142,8 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
     - ArrayList<> where the type is a primitive or a String
     - HashMap<> where the types are primitives or a String
      */
+    int activeNumber;
+    List<Integer> previousInputs;
+    boolean isLastInputOperator;
   }
 }
