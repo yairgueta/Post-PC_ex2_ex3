@@ -310,6 +310,69 @@ public class SimpleCalculatorImplTest {
     assertEquals("1", calculatorUnderTest.output());
   }
 
+  @Test
+  public void when_useMultiplePluses_should_haveOnlyOne(){
+    SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+
+    calculatorUnderTest.insertDigit(9);
+    calculatorUnderTest.insertPlus();
+    calculatorUnderTest.insertPlus();
+    calculatorUnderTest.insertDigit(7);
+    calculatorUnderTest.insertDigit(2);
+    calculatorUnderTest.insertPlus();
+    calculatorUnderTest.insertPlus();
+    calculatorUnderTest.insertPlus();
+    calculatorUnderTest.insertDigit(1);
+
+    assertEquals("9+72+1", calculatorUnderTest.output());
+  }
+
+  @Test
+  public void when_useMultipleMinuses_should_haveOnlyOne(){
+    SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+
+    calculatorUnderTest.insertDigit(7);
+    calculatorUnderTest.insertDigit(0);
+    calculatorUnderTest.insertMinus();
+    calculatorUnderTest.insertMinus();
+    calculatorUnderTest.insertDigit(2);
+    calculatorUnderTest.insertMinus();
+    calculatorUnderTest.insertMinus();
+    calculatorUnderTest.insertMinus();
+    calculatorUnderTest.insertDigit(2);
+
+    assertEquals("70-2-2", calculatorUnderTest.output());
+  }
+
+  @Test
+  public void when_useMultipleOperators_should_haveOnlyOne(){
+    SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+
+    calculatorUnderTest.insertDigit(7);
+    calculatorUnderTest.insertDigit(0);
+    calculatorUnderTest.insertPlus();
+    calculatorUnderTest.insertPlus();
+    calculatorUnderTest.insertDigit(2);
+    calculatorUnderTest.insertMinus();
+    calculatorUnderTest.insertMinus();
+    calculatorUnderTest.insertDigit(1);
+    calculatorUnderTest.insertPlus();
+    calculatorUnderTest.insertMinus();
+    calculatorUnderTest.insertPlus();
+    calculatorUnderTest.insertMinus();
+    calculatorUnderTest.insertDigit(2);
+    calculatorUnderTest.insertMinus();
+    calculatorUnderTest.insertMinus();
+    calculatorUnderTest.insertPlus();
+    calculatorUnderTest.insertPlus();
+    calculatorUnderTest.insertMinus();
+    calculatorUnderTest.insertMinus();
+    calculatorUnderTest.insertPlus();
+    calculatorUnderTest.insertMinus();
+
+    assertEquals("70+2-1+2-", calculatorUnderTest.output());
+  }
+
 
   @Test
   public void when_useEqualsManyTimes_should_calculateAllOfThem(){
