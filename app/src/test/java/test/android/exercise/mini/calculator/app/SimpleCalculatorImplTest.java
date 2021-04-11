@@ -107,7 +107,6 @@ public class SimpleCalculatorImplTest {
 
   @Test
   public void when_callingDeleteLast_then_lastOutputShouldBeDeleted(){
-    // todo: implement test
     SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
 
     calculatorUnderTest.insertDigit(1);
@@ -134,6 +133,38 @@ public class SimpleCalculatorImplTest {
     assertEquals("13", calculatorUnderTest.output());
 
     calculatorUnderTest.deleteLast();
+    calculatorUnderTest.deleteLast();
+    assertEquals("0", calculatorUnderTest.output());
+    calculatorUnderTest.deleteLast();
+    assertEquals("0", calculatorUnderTest.output());
+  }
+
+  @Test
+  public void when_callingDeleteLastEnough_then_zero(){
+    SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+
+    calculatorUnderTest.insertDigit(7);
+    calculatorUnderTest.insertDigit(1);
+    calculatorUnderTest.insertDigit(0);
+    calculatorUnderTest.insertMinus();
+    calculatorUnderTest.insertDigit(2);
+    calculatorUnderTest.insertDigit(2);
+
+    calculatorUnderTest.deleteLast();
+    calculatorUnderTest.deleteLast();
+    calculatorUnderTest.deleteLast();
+    calculatorUnderTest.deleteLast();
+    calculatorUnderTest.deleteLast();
+    calculatorUnderTest.deleteLast();
+    assertEquals("0", calculatorUnderTest.output());
+    calculatorUnderTest.deleteLast();
+    assertEquals("0", calculatorUnderTest.output());
+  }
+
+  @Test
+  public void when_callingDeleteLastWithNoInput_then_zero(){
+    SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+
     calculatorUnderTest.deleteLast();
     assertEquals("0", calculatorUnderTest.output());
     calculatorUnderTest.deleteLast();
