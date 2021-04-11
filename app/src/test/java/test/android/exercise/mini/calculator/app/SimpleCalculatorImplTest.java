@@ -23,6 +23,28 @@ public class SimpleCalculatorImplTest {
     assertEquals("0+", calculatorUnderTest.output());
   }
 
+  @Test
+  public void when_inputIsDeletedThenPlus_then_outputShouldBe0Plus(){
+    SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+    calculatorUnderTest.insertDigit(1);
+    calculatorUnderTest.deleteLast();
+    calculatorUnderTest.insertPlus();
+    assertEquals("0+", calculatorUnderTest.output());
+  }
+
+  @Test
+  public void when_inputIsClearedThenPlus_then_outputShouldBe0Plus(){
+    SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+    calculatorUnderTest.insertDigit(1);
+    calculatorUnderTest.insertDigit(7);
+    calculatorUnderTest.insertDigit(6);
+    calculatorUnderTest.insertMinus();
+    calculatorUnderTest.insertDigit(4);
+    calculatorUnderTest.clear();
+    calculatorUnderTest.insertPlus();
+    assertEquals("0+", calculatorUnderTest.output());
+  }
+
 
   @Test
   public void when_inputIsMinus_then_outputShouldBeCorrect(){
@@ -31,6 +53,30 @@ public class SimpleCalculatorImplTest {
     String expected = "0-";
     assertEquals(expected, calculatorUnderTest.output());
   }
+
+  @Test
+  public void when_inputIsDeletedThenIsMinus_then_outputShouldBeCorrect(){
+    SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+    calculatorUnderTest.insertDigit(1);
+    calculatorUnderTest.deleteLast();
+    calculatorUnderTest.insertMinus();
+    String expected = "0-";
+    assertEquals(expected, calculatorUnderTest.output());
+  }
+
+  @Test
+  public void when_inputIsClearedThenMinus_then_outputShouldBe0Minus(){
+    SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+    calculatorUnderTest.insertDigit(2);
+    calculatorUnderTest.insertDigit(7);
+    calculatorUnderTest.insertMinus();
+    calculatorUnderTest.insertDigit(3);
+    calculatorUnderTest.insertDigit(1);
+    calculatorUnderTest.clear();
+    calculatorUnderTest.insertMinus();
+    assertEquals("0-", calculatorUnderTest.output());
+  }
+
 
   @Test
   public void when_callingInsertDigitWithIllegalNumber_then_exceptionShouldBeThrown(){
