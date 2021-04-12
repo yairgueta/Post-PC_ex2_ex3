@@ -1,10 +1,13 @@
 package test.android.exercise.mini.calculator.app;
 
+import android.exercise.mini.calculator.app.SimpleCalculator;
 import android.exercise.mini.calculator.app.SimpleCalculatorImpl;
 
 import org.junit.Test;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -522,5 +525,66 @@ public class SimpleCalculatorImplTest {
     firstCalc.insertDigit(0);
 
     assertEquals("97-7+10-50", firstCalc.output());
+  }
+
+  @Test
+  public void when_typingBigInts_should_behaveNormal(){
+    SimpleCalculator calculator = new SimpleCalculatorImpl();
+
+    int maxInt = Integer.MAX_VALUE;
+    List<Integer> digits = new ArrayList<Integer>();
+
+    while (maxInt != 0){
+      digits.add(maxInt%10);
+      maxInt /= 10;
+    }
+
+    for (int i = digits.size()-1; i >= 0 ; i--) {
+      calculator.insertDigit(digits.get(i));
+    }
+    calculator.insertDigit(9);
+    calculator.insertDigit(9);
+    calculator.insertDigit(9);
+    calculator.insertPlus();
+    calculator.insertDigit(9);
+    calculator.insertDigit(9);
+    calculator.insertDigit(9);
+    for (int i = digits.size()-1; i >= 0 ; i--) {
+      calculator.insertDigit(digits.get(i));
+    }
+
+    String expected = "" + Integer.MAX_VALUE +"999+999"+Integer.MAX_VALUE;
+    assertEquals(expected, calculator.output());
+  }
+
+
+  @Test
+  public void when_typingBigLongs_should_behaveNormal(){
+    SimpleCalculator calculator = new SimpleCalculatorImpl();
+
+    long maxInt = Long.MAX_VALUE;
+    List<Integer> digits = new ArrayList<Integer>();
+
+    while (maxInt != 0){
+      digits.add((int)(maxInt%10));
+      maxInt /= 10;
+    }
+
+    for (int i = digits.size()-1; i >= 0 ; i--) {
+      calculator.insertDigit(digits.get(i));
+    }
+    calculator.insertDigit(9);
+    calculator.insertDigit(9);
+    calculator.insertDigit(9);
+    calculator.insertPlus();
+    calculator.insertDigit(9);
+    calculator.insertDigit(9);
+    calculator.insertDigit(9);
+    for (int i = digits.size()-1; i >= 0 ; i--) {
+      calculator.insertDigit(digits.get(i));
+    }
+
+    String expected = "" + Long.MAX_VALUE +"999+999"+Long.MAX_VALUE;
+    assertEquals(expected, calculator.output());
   }
 }
