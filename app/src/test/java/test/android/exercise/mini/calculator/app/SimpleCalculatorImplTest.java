@@ -6,6 +6,7 @@ import android.exercise.mini.calculator.app.SimpleCalculatorImpl;
 import org.junit.Test;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -557,6 +558,31 @@ public class SimpleCalculatorImplTest {
     assertEquals(expected, calculator.output());
   }
 
+  @Test
+  public void when_calculatingWithBigInts_should_calculateWell(){
+    SimpleCalculator calculator = new SimpleCalculatorImpl();
+
+    int maxInt = Integer.MAX_VALUE;
+    List<Integer> digits = new ArrayList<>();
+
+    while (maxInt != 0){
+      digits.add(maxInt%10);
+      maxInt /= 10;
+    }
+
+    for (int i = digits.size()-1; i >= 0 ; i--) {
+      calculator.insertDigit(digits.get(i));
+    }
+    calculator.insertPlus();
+    for (int i = digits.size()-1; i >= 0 ; i--) {
+      calculator.insertDigit(digits.get(i));
+    }
+    calculator.insertEquals();
+    long twiceMaxInt = ((long)Integer.MAX_VALUE) * 2;
+    String expected = String.valueOf(twiceMaxInt);
+    assertEquals(expected, calculator.output());
+  }
+
 
   @Test
   public void when_typingBigLongs_should_behaveNormal(){
@@ -585,6 +611,31 @@ public class SimpleCalculatorImplTest {
     }
 
     String expected = "" + Long.MAX_VALUE +"999+999"+Long.MAX_VALUE;
+    assertEquals(expected, calculator.output());
+  }
+
+  @Test
+  public void when_calculatingWithBigLongs_should_calculateWell(){
+    SimpleCalculator calculator = new SimpleCalculatorImpl();
+
+    long maxInt = Long.MAX_VALUE;
+    List<Integer> digits = new ArrayList<>();
+
+    while (maxInt != 0){
+      digits.add((int)(maxInt%10));
+      maxInt /= 10;
+    }
+
+    for (int i = digits.size()-1; i >= 0 ; i--) {
+      calculator.insertDigit(digits.get(i));
+    }
+    calculator.insertPlus();
+    for (int i = digits.size()-1; i >= 0 ; i--) {
+      calculator.insertDigit(digits.get(i));
+    }
+    calculator.insertEquals();
+    BigInteger twiceMaxLong = BigInteger.valueOf(Long.MAX_VALUE).multiply(BigInteger.valueOf(2));
+    String expected = String.valueOf(twiceMaxLong);
     assertEquals(expected, calculator.output());
   }
 }
