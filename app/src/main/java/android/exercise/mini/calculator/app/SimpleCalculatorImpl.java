@@ -3,15 +3,16 @@ package android.exercise.mini.calculator.app;
 import androidx.core.app.CoreComponentFactory;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SimpleCalculatorImpl implements SimpleCalculator {
-  private static final int PLUS = 10;
-  private static final int MINUS = 11;
+  private static final BigInteger PLUS = BigInteger.valueOf(10);
+  private static final BigInteger MINUS = BigInteger.valueOf(11);
 
-  private int activeNumber;
-  private List<Integer> previousInputs = new ArrayList<>();
+  private BigInteger activeNumber = BigInteger.ZERO;
+  private List<BigInteger> previousInputs = new ArrayList<>();
 
   // determines whether the last input was an operator or a digit.
   private boolean isLastInputOperator = false;
@@ -23,14 +24,11 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
       if (i%2 == 0){
         sb.append(previousInputs.get(i));
       }else {
-        int operator = previousInputs.get(i);
-        switch (operator) {
-          case PLUS:
-            sb.append('+');
-            break;
-          case MINUS:
-            sb.append('-');
-            break;
+        BigInteger operator = previousInputs.get(i);
+        if (operator.equals(PLUS)) {
+          sb.append('+');
+        } else if (operator.equals(MINUS)) {
+          sb.append('-');
         }
       }
     }
@@ -41,8 +39,8 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
   @Override
   public void insertDigit(int digit) {
     if (digit < 0 || digit > 9) throw new IllegalArgumentException();
-    activeNumber *= 10;
-    activeNumber += digit;
+    activeNumber = activeNumber.multiply(BigInteger.TEN);
+    activeNumber = activeNumber.add(BigInteger.valueOf(digit));
     isLastInputOperator = false;
   }
 
@@ -53,7 +51,7 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
     if (isLastInputOperator) return;
     previousInputs.add(activeNumber);
     previousInputs.add(PLUS);
-    activeNumber = 0;
+    activeNumber = BigInteger.ZERO;
     isLastInputOperator = true;
   }
 
@@ -62,7 +60,7 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
     if (isLastInputOperator) return;
     previousInputs.add(activeNumber);
     previousInputs.add(MINUS);
-    activeNumber = 0;
+    activeNumber = BigInteger.ZERO;
     isLastInputOperator = true;
   }
 
@@ -73,14 +71,11 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
     previousInputs.add(activeNumber);
     activeNumber = previousInputs.get(0);
     for (int i = 1 ; i < previousInputs.size(); i+=2){
-      int operator = previousInputs.get(i);
-      switch (operator){
-        case PLUS:
-          activeNumber += previousInputs.get(i+1);
-          break;
-        case MINUS:
-          activeNumber -= previousInputs.get(i+1);
-          break;
+      BigInteger operator = previousInputs.get(i);
+      if (PLUS.equals(operator)) {
+        activeNumber = activeNumber.add(previousInputs.get(i + 1));
+      } else if (MINUS.equals(operator)) {
+        activeNumber = activeNumber.subtract(previousInputs.get(i + 1));
       }
     }
     isLastInputOperator = false;
@@ -100,14 +95,14 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
       previousInputs.remove(previousInputs.size()-1);
       previousInputs.remove(previousInputs.size()-1);
       isLastInputOperator = false;
-    }else if (activeNumber == 0){
+    }else if (activeNumber.equals(BigInteger.ZERO)){
       if (!previousInputs.isEmpty()){
         isLastInputOperator = true;
         previousInputs.remove(previousInputs.size()-1);
       }
     }else{
-      activeNumber = activeNumber / 10;
-      isLastInputOperator = activeNumber == 0 && previousInputs.size() > 0;
+      activeNumber = activeNumber.divide(BigInteger.TEN);
+      isLastInputOperator = activeNumber.equals(BigInteger.ZERO) && previousInputs.size() > 0;
     }
 
   }
@@ -116,7 +111,7 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
   public void clear() {
     isLastInputOperator = false;
     previousInputs.clear();
-    activeNumber = 0;
+    activeNumber = BigInteger.ZERO;
   }
 
   @Override
@@ -148,8 +143,8 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
     - ArrayList<> where the type is a primitive or a String
     - HashMap<> where the types are primitives or a String
      */
-    int activeNumber;
-    List<Integer> previousInputs;
+    BigInteger activeNumber;
+    List<BigInteger> previousInputs;
     boolean isLastInputOperator;
   }
 }
