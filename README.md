@@ -12,7 +12,6 @@
 - add more unit tests to `MainActivityTest.java`
 - add more flow tests to `AppFlowTest.java`
 
-Basically look for "TODO" in the code.
 
 
 Good luck!

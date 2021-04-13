@@ -66,8 +66,6 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
 
   @Override
   public void insertEquals() {
-    // todo: calculate the equation. after calling `insertEquals()`, the output should be the result
-    //  e.g. given input "14+3", calling `insertEquals()`, and calling `output()`, output should be "17"
     previousInputs.add(activeNumber);
     activeNumber = previousInputs.get(0);
     for (int i = 1 ; i < previousInputs.size(); i+=2){
@@ -84,12 +82,6 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
 
   @Override
   public void deleteLast() {
-    // todo: delete the last input (digit, plus or minus)
-    //  e.g.
-    //  if input was "12+3" and called `deleteLast()`, then delete the "3"
-    //  if input was "12+" and called `deleteLast()`, then delete the "+"
-    //  if no input was given, then there is nothing to do here
-
     if (isLastInputOperator){
       activeNumber = previousInputs.get(previousInputs.size()-2);
       previousInputs.remove(previousInputs.size()-1);
@@ -136,7 +128,6 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
 
   private static class CalculatorState implements Serializable {
     /*
-    TODO: add fields to this class that will store the calculator state
     all fields must only be from the types:
     - primitives (e.g. int, boolean, etc)
     - String
