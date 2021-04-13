@@ -245,4 +245,17 @@ public class AppFlowTest {
     assertEquals(expected.toString(), textViewOutput.getText().toString());
   }
 
+  @Test
+  public void testSaveStateAfterActivityDestroyed(){
+
+    for (View b : Arrays.asList(
+            button4, button5, buttonMinus, button9, button2, button4, buttonPlus
+    ))
+      b.performClick();
+    activityUnderTest.recreate();
+    activityUnderTest = activityController.get();
+    textViewOutput = activityUnderTest.findViewById(R.id.textViewCalculatorOutput);
+    assertEquals("45-924+", textViewOutput.getText().toString());
+
+  }
 }

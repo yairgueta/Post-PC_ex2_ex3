@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
         if (calculator == null) {
             calculator = new SimpleCalculatorImpl();
         }
-
         numbersViews = new TextView[]{
                 findViewById(R.id.button0),
                 findViewById(R.id.button1),
@@ -113,5 +112,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         calculator.loadState(savedInstanceState.getSerializable(STATE_KEY));
+        updateToCalculatorOutput();
     }
 }
