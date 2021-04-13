@@ -101,15 +101,17 @@ public class MainActivity extends AppCompatActivity {
       outputView.setText(calculator.output());
     }
 
+    private static final String STATE_KEY = "CALCULATOR KEY STATE";
+
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putSerializable(null, calculator.saveState());
+        outState.putSerializable(STATE_KEY, calculator.saveState());
     }
 
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        calculator.loadState(savedInstanceState.getSerializable(null));
+        calculator.loadState(savedInstanceState.getSerializable(STATE_KEY));
     }
 }

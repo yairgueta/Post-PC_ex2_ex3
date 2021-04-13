@@ -56,7 +56,7 @@ public class MainActivityTest {
   @Test
   public void when_userClicksButtonPlus_then_activityShouldForwardCallToCalculator_and_ShowTheExpectedCalculatorOutputRightAway() {
     // setup
-    String expectedText = "button PLUS clicked";
+    String expectedText = "button PLUS clicjhfhfjghkked";
     Mockito.when(mockCalculator.output()).thenReturn(expectedText);
 
     TextView activityMainTextView = activityUnderTest.findViewById(R.id.textViewCalculatorOutput);
